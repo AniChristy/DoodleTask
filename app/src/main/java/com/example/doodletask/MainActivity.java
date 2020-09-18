@@ -1,16 +1,15 @@
 package com.example.doodletask;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,7 +18,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -35,6 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,10 +46,11 @@ public class MainActivity extends AppCompatActivity
     LinearLayout menubar;
     LinearLayout linear_bottom;
     TextView txt_visibility;
-    List<MyListData> data = new ArrayList<MyListData>();
+    List<MyListDataAdapter> data = new ArrayList<MyListDataAdapter>();
     RecyclerView.Adapter recyclerViewadapter;//
     RecyclerView recyclerView;//
-    AutoCompleteTextView search;
+    LinearLayout lin_seacrh;
+    String price,change;
 
     ArrayList<String>rank=new ArrayList<>();
     ArrayList<String>symbol=new ArrayList<>();
@@ -62,7 +62,9 @@ public class MainActivity extends AppCompatActivity
     ArrayList<String> listItems = new ArrayList<>();
     ArrayList<String> coins = new ArrayList<>();
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    JSONObject json_name;
+    TextView txthead,txtpt,txtName,txtPrice,txtChange;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,8 +86,23 @@ public class MainActivity extends AppCompatActivity
         txt_visibility = findViewById(R.id.txt_visiblity);
         linear_bottom = findViewById(R.id.linear_bottom);
         menubar = findViewById(R.id.menu_bar);
-         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        txthead=findViewById(R.id.txt_head);
+        txtpt=findViewById(R.id.txt_pt);
+        txtName=findViewById(R.id.txtName);
+        txtChange=findViewById(R.id.txtChange);
+        txtPrice=findViewById(R.id.txtPrice);
 
+        lin_seacrh=findViewById(R.id.lin_seacrh);
+        lin_seacrh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Search_Page.class);
+                startActivity(intent);
+
+            }
+        });
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager =  new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);//
         recyclerView.setLayoutManager(mLayoutManager);
@@ -158,15 +175,38 @@ public class MainActivity extends AppCompatActivity
                                 Log.e("---------------", "--------entering for loop---------" );
 
 
-                                MyListData GetDataAdapter2 = new MyListData();
+                                MyListDataAdapter GetDataAdapter2 = new MyListDataAdapter();
 
                                 try {
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                    try {
+                                        String a = jsonObject.getString("priceUsd");
+                                        String b = jsonObject.getString("changePercent24Hr");
+                                        Log.e("---n---", "---string value---" + a);
+                                        double n = Double.parseDouble(a);
+                                        double m = Double.parseDouble(b);
+                                        Log.e("---n---", "---double value---" + n);
+                                        DecimalFormat twoDForm = new DecimalFormat("#.##");
+                                        DecimalFormat twoDForm1 = new DecimalFormat("#.##");
+                                        double f = Double.valueOf(twoDForm.format(n));
+                                        double g = Double.valueOf(twoDForm1.format(m));
+                                        Log.e("---f---", "---final double value---" + f);
+                                        price=String.valueOf(f);
+                                        change=String.valueOf(g);
+                                        Log.e("---f---", "---double to string---" + price);
+                                    }
+                                    catch (Exception e){
+                                        e.printStackTrace();
+                                        Log.e("------errorrr---","---error in formating---");
+                                    }
+
+
                                     GetDataAdapter2.setRank(jsonObject.getString("rank"));
                                     GetDataAdapter2.setSymbol(jsonObject.getString("symbol"));
                                     GetDataAdapter2.setName(jsonObject.getString("name"));
-                                    GetDataAdapter2.setPriceUsd(jsonObject.getString("priceUsd"));
-                                    GetDataAdapter2.setChangePercent24Hr(jsonObject.getString("changePercent24Hr"));
+                                    GetDataAdapter2.setPriceUsd(price);
+                                    GetDataAdapter2.setChangePercent24Hr(change);
 
                                     rank.add(jsonObject.getString("rank"));
                                     symbol.add(jsonObject.getString("symbol"));
@@ -187,6 +227,7 @@ public class MainActivity extends AppCompatActivity
 
                             }
 
+
                         try {
                             String names[] = coins.toArray(new String[0]);
 
@@ -204,7 +245,7 @@ public class MainActivity extends AppCompatActivity
 
                         refresh.setRefreshing(false);
 
-                        recyclerViewadapter = new MyListAdapter(data, MainActivity.this);
+                        recyclerViewadapter = new MyListRecyclerview(data, MainActivity.this);
 
                         recyclerView.setAdapter(recyclerViewadapter);
 

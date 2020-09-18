@@ -2,7 +2,7 @@ package com.example.doodletask;
 
 import android.widget.ImageView;
 
-public class MyListData {
+public class MyListDataAdapter {
     public String symbol;
     public String rank;
     public String name;

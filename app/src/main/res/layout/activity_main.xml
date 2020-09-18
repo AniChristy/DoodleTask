@@ -45,6 +45,7 @@
             android:layout_weight="1">
 
             <TextView
+                android:id="@+id/txt_head"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0"
@@ -78,12 +79,13 @@
             android:src="@drawable/ic_down_arrow"/>
 
         <TextView
+            android:id="@+id/txt_pt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="12dp"
             android:text="Global Market Cap:$34,5676"
             android:textColor="@color/Black"
-            android:textSize="10dp"
+            android:textSize="12dp"
            />
 
     </LinearLayout>
@@ -101,8 +103,8 @@
         android:layout_marginBottom="15dp"
         android:orientation="horizontal"
         android:weightSum="2"
-        android:background="@drawable/curve_edittext">
-
+        android:background="@drawable/curve_edittext"
+        android:visibility="gone">
 
 
         <LinearLayout
@@ -120,8 +122,6 @@
                 android:background="@android:color/transparent"
                 />
 
-
-
         </LinearLayout>
 
         <LinearLayout
@@ -132,13 +132,65 @@
             android:paddingRight="20dp">
 
                 <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginLeft="10dp"
-            android:clickable="false"
-            android:focusable="false"
-            android:layout_gravity="center|right"
-            android:background="@drawable/ic_miscellaneous"/>
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:layout_gravity="center|right"
+                    android:background="@drawable/ic_miscellaneous"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lin_seacrh"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:background="@drawable/curve_edittext">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="7dp"
+            android:layout_weight="0.5">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:layout_gravity="center"
+                android:clickable="false"
+                android:textSize="14dp"
+                android:layout_marginLeft="10dp"
+                android:text="Search coins...."/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center|right"
+            android:layout_weight="1.5"
+            android:paddingRight="20dp">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="10dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_miscellaneous"/>
 
         </LinearLayout>
 
@@ -153,6 +205,7 @@
         android:weightSum="2">
 
         <TextView
+            android:id="@+id/txtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Name"
@@ -162,22 +215,29 @@
             android:textSize="14dp"/>
 
         <TextView
+            android:id="@+id/txtPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Price"
-            android:gravity="center"
+            android:gravity="center|right"
             android:layout_weight="0.75"
             android:textSize="14dp"/>
 
         <TextView
+            android:id="@+id/txtChange"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Change"
-            android:gravity="center"
+            android:gravity="center|right"
             android:layout_weight="0.75"
             android:textSize="14dp"/>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/LightGrey" />
 
     <LinearLayout
         android:layout_width="match_parent"
